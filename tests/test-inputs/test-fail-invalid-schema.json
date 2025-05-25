@@ -25,7 +25,7 @@
             "type": "object",
             "properties": {
                 "answer": {
-                    "type": "string"
+                    "type": "stringy"
                 }
             },
             "required": [ "answer" ]

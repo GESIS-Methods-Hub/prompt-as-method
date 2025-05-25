@@ -1,5 +1,7 @@
 from typing import Annotated, Any, List, Literal, Union
-from pydantic import BaseModel, Field
+import jsonschema
+import jsonschema._keywords
+from pydantic import AfterValidator, BaseModel, Field
 
 
 class BaseMessage(BaseModel):
@@ -43,6 +45,12 @@ class PromptParameters(BaseModel):
     top_p: Annotated[float, Field(ge=top_p_min, le=top_p_max)] = top_p_default
 
 
+def is_valid_json_schema(value: ResponseFormat | None) -> ResponseFormat | None:
+    if value is not None:
+        jsonschema.Draft202012Validator.check_schema(value.json_schema)
+    return value
+
+
 class Prompt(PromptParameters):
     messages: Messages
-    response_format: ResponseFormat | None = None
+    response_format: Annotated[ResponseFormat | None, AfterValidator(is_valid_json_schema)] = None

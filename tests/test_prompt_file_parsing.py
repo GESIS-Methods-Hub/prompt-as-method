@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 import unittest
 
+import jsonschema
+
 from prompt_as_method import PromptTemplate
 
 input_path = Path("tests") / "test-inputs"
@@ -173,6 +175,16 @@ class TestPromptFileParsing(unittest.TestCase):
         data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
+            prompt_template.render(data)
+
+    def test_fail_invalid_schema(self):
+        file_name = "test-fail-invalid-schema.json"
+        data = {
+            "thing": "apple",
+            "thing2": "pear"
+        }
+        prompt_template = PromptTemplate(input_path / file_name)
+        with self.assertRaises(jsonschema.SchemaError):
             prompt_template.render(data)
 
 
