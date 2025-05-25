@@ -19,20 +19,15 @@ parser.add_argument(
     " the file (except the header for .csv and .tsv)"
 )
 parser.add_argument(
-    "--model-api", type=str, default="http://localhost:11434/api/chat",
+    "--model-api", type=str, default="http://localhost:11434/v1/chat/completions",
     help="URL of the chat completion API endpoint (default is local Ollama server)"
-)
-parser.add_argument(
-    "--model-api-type", type=LLMType, choices=list(LLMType), default=LLMType.ollama,
-    help="The type of chat completion API (default is 'Ollama')"
 )
 
 opts = parser.parse_args()
-print(opts)
 
 prompt_template = PromptTemplate(template_file_name=opts.prompt_template)
 prompts = prompt_template.render_from_file(opts.values) if opts.values is not None else [prompt_template.render()].__iter__()
-llm = HttpLLM.init(opts.model_api_type, opts.model_api)
+llm = HttpLLM.init(LLMType.openai, opts.model_api)
 
 for response in llm.generate_all(prompts):
     print(response)
