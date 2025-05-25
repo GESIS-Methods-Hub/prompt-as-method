@@ -1,5 +1,7 @@
 import abc
+from enum import Enum
 import json
+from typing import Iterator
 import requests
 
 from pydantic import HttpUrl
@@ -12,6 +14,18 @@ class LLM(object):
     @abc.abstractmethod
     def generate(self, prompt: Prompt) -> dict:
         pass
+
+    def generate_all(self, prompts: Iterator[Prompt]) -> Iterator[dict]:
+        for prompt in prompts:
+            yield self.generate(prompt)
+
+
+class LLMType(Enum):
+    openai = "OpenAI"
+    ollama = "Ollama"
+
+    def __str__(self):
+        return self.value
 
 
 class HttpLLM(LLM):
@@ -34,6 +48,16 @@ class HttpLLM(LLM):
         if response.status_code != 200:
             raise ValueError(f"Error returned from {self._url}: {response.text}")
         return response.json()
+
+    @staticmethod
+    def init(llm_type: LLMType, url: str) -> "HttpLLM":
+        match llm_type:
+            case LLMType.openai:
+                return OpenAI(url)
+            case LLMType.ollama:
+                return Ollama(url)
+            case _:
+                raise ValueError(f"Invalid LLMType: {type(llm_type)}")
 
 
 class ChatCompletion(Prompt):

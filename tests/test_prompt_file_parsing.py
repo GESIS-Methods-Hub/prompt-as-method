@@ -123,7 +123,7 @@ class TestPromptFileParsing(unittest.TestCase):
             expected = json.load(file)
 
         prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_ndjson(examples_path / file_name_data))
+        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
         self.assertListEqual(
             expected,
             [prompt.model_dump() for prompt in prompts]
@@ -137,7 +137,7 @@ class TestPromptFileParsing(unittest.TestCase):
             expected = json.load(file)
 
         prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_csv(examples_path / file_name_data))
+        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
         self.assertListEqual(
             expected,
             [prompt.model_dump() for prompt in prompts]
@@ -151,7 +151,7 @@ class TestPromptFileParsing(unittest.TestCase):
             expected = json.load(file)
 
         prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_tsv(examples_path / file_name_data))
+        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
         self.assertListEqual(
             expected,
             [prompt.model_dump() for prompt in prompts]

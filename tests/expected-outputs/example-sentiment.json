@@ -1,7 +1,7 @@
 [
     {
         "model": "llama3.1",
-        "max_completion_tokens": 10,
+        "max_completion_tokens": 15,
         "temperature": 1,
         "top_p": 1,
         "messages": [
@@ -73,7 +73,7 @@
     },
     {
         "model": "llama3.1",
-        "max_completion_tokens": 10,
+        "max_completion_tokens": 15,
         "temperature": 1,
         "top_p": 1,
         "messages": [

@@ -1,5 +1,6 @@
 import csv
 import json
+from pathlib import Path
 from typing import Iterator
 import chevron
 from pydantic import FilePath
@@ -59,3 +60,14 @@ class PromptTemplate:
                 trimmed_line = line.strip()
                 if trimmed_line != "":
                     yield self.render(json.loads(trimmed_line))
+
+    def render_from_file(self, file_name: FilePath, file_type: str | None = None, **kwargs) -> Iterator[Prompt]:
+        if type(file_name) is str:
+            return self.render_from_file(Path(file_name), file_type=file_type, **kwargs)
+        if file_type == "csv" or file_name.suffix == ".csv":
+            return self.render_from_csv(file_name, **kwargs)
+        if file_type == "tsv" or file_name.suffix == ".tsv":
+            return self.render_from_tsv(file_name, **kwargs)
+        if file_type == "ndjson" or file_name.suffix == ".ndjson":
+            return self.render_from_ndjson(file_name, **kwargs)
+        raise ValueError(f"Unknown file type of file {file_name}")
