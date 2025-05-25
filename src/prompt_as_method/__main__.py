@@ -34,4 +34,4 @@ prompts = prompt_template.render_from_file(opts.values) if opts.values is not No
 llm = HttpLLM.init(LLMType.openai, opts.model_api)
 
 for response in llm.generate_all(prompts, repetitions=opts.repetitions):
-    print(response.model_dump_json())
+    print(response.model_dump_json(exclude_none=True))
