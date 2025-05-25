@@ -1,23 +1,33 @@
 import abc
 from enum import Enum
 import json
-from typing import Iterator
+from typing import Dict, Iterator, List
 import requests
 
-from pydantic import HttpUrl
+from pydantic import BaseModel, HttpUrl
 from .prompt import Prompt
+
+
+class LLMResponse(BaseModel):
+    prompt: Prompt
+    responses: List[Dict]
 
 
 class LLM(object):
     __metaclass__ = abc.ABCMeta
 
+    def generate(self, prompt: Prompt, repetitions: int = 1) -> LLMResponse:
+        return LLMResponse(prompt=prompt, responses=[
+                self._generate_response(prompt) for _ in range(repetitions)
+            ])
+
     @abc.abstractmethod
-    def generate(self, prompt: Prompt) -> dict:
+    def _generate_response(self, prompt: Prompt) -> dict:
         pass
 
-    def generate_all(self, prompts: Iterator[Prompt]) -> Iterator[dict]:
+    def generate_all(self, prompts: Iterator[Prompt], **kwargs) -> Iterator[LLMResponse]:
         for prompt in prompts:
-            yield self.generate(prompt)
+            yield self.generate(prompt, **kwargs)
 
 
 class LLMType(Enum):
@@ -36,7 +46,7 @@ class HttpLLM(LLM):
     def _prompt_to_request_data(self, prompt: Prompt) -> dict:
         return {}
 
-    def generate(self, prompt: Prompt) -> dict:
+    def _generate_response(self, prompt: Prompt) -> dict:
         request_data = json.dumps(self._prompt_to_request_data(prompt))
         response = requests.post(
             url=self._url.__str__(),

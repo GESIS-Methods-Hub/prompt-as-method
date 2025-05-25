@@ -126,7 +126,7 @@ class TestPromptFileParsing(unittest.TestCase):
         prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
         self.assertListEqual(
             expected,
-            [prompt.model_dump() for prompt in prompts]
+            [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
     def test_example_sentiment_csv(self):
@@ -140,7 +140,7 @@ class TestPromptFileParsing(unittest.TestCase):
         prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
         self.assertListEqual(
             expected,
-            [prompt.model_dump() for prompt in prompts]
+            [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
     def test_example_sentiment_tsv(self):
@@ -154,7 +154,7 @@ class TestPromptFileParsing(unittest.TestCase):
         prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
         self.assertListEqual(
             expected,
-            [prompt.model_dump() for prompt in prompts]
+            [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
     def test_fail_empty_messages(self):

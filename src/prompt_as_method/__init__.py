@@ -1,4 +1,4 @@
-from .llm import LLM, LLMType, HttpLLM, OpenAI
+from .llm import LLM, LLMResponse, LLMType, HttpLLM, OpenAI
 from .prompt_template import PromptTemplate
 from .prompt import BaseMessage, AssistantMessage, SystemMessage, UserMessage, Message, Messages
 from .prompt import ResponseFormat, PromptParameters, Prompt
@@ -8,6 +8,7 @@ __all__ = [
     "BaseMessage",
     "HttpLLM",
     "LLM",
+    "LLMResponse",
     "LLMType",
     "Message",
     "Messages",

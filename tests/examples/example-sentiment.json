@@ -42,7 +42,6 @@
             "role": "user"
         }
     ],
-    "max_completion_tokens": 15,
     "response_format": {
         "type": "json_schema",
         "json_schema": {

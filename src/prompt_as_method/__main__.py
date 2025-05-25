@@ -19,6 +19,10 @@ parser.add_argument(
     " the file (except the header for .csv and .tsv)"
 )
 parser.add_argument(
+    "--repetitions", type=int, default=1,
+    help="How often each prompt (row in values file) should be repeated (default: 1)"
+)
+parser.add_argument(
     "--model-api", type=str, default="http://localhost:11434/v1/chat/completions",
     help="URL of the chat completion API endpoint (default is local Ollama server)"
 )
@@ -29,5 +33,5 @@ prompt_template = PromptTemplate(template_file_name=opts.prompt_template)
 prompts = prompt_template.render_from_file(opts.values) if opts.values is not None else [prompt_template.render()].__iter__()
 llm = HttpLLM.init(LLMType.openai, opts.model_api)
 
-for response in llm.generate_all(prompts):
-    print(response)
+for response in llm.generate_all(prompts, repetitions=opts.repetitions):
+    print(response.model_dump_json())
