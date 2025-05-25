@@ -7,11 +7,12 @@ from prompt_as_method import PromptTemplate
 input_path = Path("tests") / "test-inputs"
 output_path = Path("tests") / "expected-outputs"
 
+
 class TestPromptFileParsing(unittest.TestCase):
 
     def test_minimal_no_template(self):
         file_name = "test-minimal-no-template.json"
-        data = { }
+        data = {}
         with open(output_path / file_name) as file:
             expected = json.load(file)
 
@@ -85,7 +86,7 @@ class TestPromptFileParsing(unittest.TestCase):
         file_name_expected = "test-full-message-template.json"
         data = {
             "thing": "apple",
-            "otherThings": [ "pear", "banana" ]
+            "otherThings": ["pear", "banana"]
         }
         with open(output_path / file_name_expected) as file:
             expected = json.load(file)
@@ -113,66 +114,67 @@ class TestPromptFileParsing(unittest.TestCase):
 
     def test_fail_empty_messages(self):
         file_name = "test-fail-empty-messages.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_empty(self):
         file_name = "test-fail-empty.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_invalid_role(self):
         file_name = "test-fail-invalid-role.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_list(self):
         file_name = "test-fail-list.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_no_json(self):
         file_name = "test-fail-no-json.txt"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_no_messages(self):
         file_name = "test-fail-no-messages.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_no_model(self):
         file_name = "test-fail-no-model.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_no_role(self):
         file_name = "test-fail-no-role.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
     def test_fail_only_text(self):
         file_name = "test-fail-only-text.json"
-        data = { }
+        data = {}
         prompt_template = PromptTemplate(input_path / file_name)
         with self.assertRaises(ValueError):
             prompt_template.render(data)
+
 
 if __name__ == '__main__':
     unittest.main()

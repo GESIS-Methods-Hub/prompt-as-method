@@ -32,9 +32,9 @@ class PromptTemplate:
             with open(data_file_name) as data_file:
                 return self.render(data_file.read())
 
-        if data is str:
+        if type(data) is str:
             return self.render(json.loads(data))
-        elif data is dict:
+        elif type(data) is dict:
             rendered: str = chevron.render(self._template_string, data)
             return Prompt.model_validate_json(rendered)
         else:
