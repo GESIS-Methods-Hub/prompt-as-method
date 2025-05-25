@@ -1,0 +1,11 @@
+{
+    "model":"llama3.1",
+    "messages": [
+        {
+            "content": "Is this a apple?",
+            "role": "user"
+        }
+    ],
+    "temperature":1.0,
+    "top_p":1.0
+}

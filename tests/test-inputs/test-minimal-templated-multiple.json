@@ -1,0 +1,9 @@
+{
+    "model": "llama3.1",
+    "messages": [
+        {
+            "content": "Is this a {{thing}} or a {{thing}} or a {{thing2}}?",
+            "role": "user"
+        }
+    ]
+}

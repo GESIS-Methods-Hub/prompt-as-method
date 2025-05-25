@@ -2,9 +2,10 @@ import csv
 import json
 from typing import Iterator
 import chevron
-from pydantic import FilePath, ValidationError
+from pydantic import FilePath
 
 from .prompt import Prompt
+
 
 class PromptTemplate:
 
@@ -12,12 +13,12 @@ class PromptTemplate:
             self,
             template_file_name: FilePath | None = None,
             template_string: str | None = None):
-        if template_string != None:
-            if template_file_name == None:
+        if template_string is not None:
+            if template_file_name is None:
                 self._template_string = template_string
             else:
                 raise ValueError("Both file_name and template_string were provided")
-        elif template_file_name != None:
+        elif template_file_name is not None:
             with open(template_file_name) as template_file:
                 self._template_string = template_file.read()
         else:
@@ -27,19 +28,19 @@ class PromptTemplate:
             self,
             data: dict | str = {},
             data_file_name: FilePath | None = None) -> Prompt:
-        if data_file_name != None:
+        if data_file_name is not None:
             with open(data_file_name) as data_file:
                 return self.render(data_file.read())
 
-        if type(data) == str:
+        if data is str:
             return self.render(json.loads(data))
-        elif type(data) == dict:
+        elif data is dict:
             rendered: str = chevron.render(self._template_string, data)
             return Prompt.model_validate_json(rendered)
         else:
             raise ValueError("invalid data type")
-    
-    def render_from_dicts(self, data_stream : Iterator[dict]) -> Iterator[Prompt]:
+
+    def render_from_dicts(self, data_stream: Iterator[dict]) -> Iterator[Prompt]:
         for data in data_stream:
             yield self.render(data)
 

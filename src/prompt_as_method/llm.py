@@ -5,12 +5,14 @@ import requests
 from pydantic import HttpUrl
 from .prompt import Prompt
 
+
 class LLM(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
     def generate(self, prompt: Prompt) -> dict:
         pass
+
 
 class HttpLLM(LLM):
 
@@ -23,29 +25,30 @@ class HttpLLM(LLM):
 
     def generate(self, prompt: Prompt) -> dict:
         request_data = json.dumps(self._prompt_to_request_data(prompt))
-        print(request_data)
         response = requests.post(
             url=self._url.__str__(),
             headers={
                 "Content-Type": "application/json"
             },
             data=request_data)
-        print(response.status_code)
         if response.status_code != 200:
             raise ValueError(f"Error returned from {self._url}: {response.text}")
         return response.json()
 
+
 class ChatCompletion(Prompt):
     stream: bool = False
+
 
 class OpenAI(HttpLLM):
 
     def __init__(self, url: str):
         super().__init__(url)
-    
+
     def _prompt_to_request_data(self, prompt: Prompt) -> dict:
         chat_completion = ChatCompletion.model_validate(prompt.model_dump())
         return chat_completion.model_dump(exclude_none=True)
+
 
 class Ollama(OpenAI):
 

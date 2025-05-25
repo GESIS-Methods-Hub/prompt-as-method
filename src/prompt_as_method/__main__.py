@@ -1,6 +1,6 @@
 from .prompt_template import PromptTemplate
 from .prompt import ResponseFormat
-from .llm import OpenAI, Ollama
+from .llm import Ollama
 
 llm = Ollama("http://localhost:11434/api/chat")
 prompt_template = PromptTemplate(template_string="What is 1 + {{word}}? Return a JSON object with the solution")
@@ -16,7 +16,7 @@ prompt.response_format = ResponseFormat(
                 "type": "integer"
             }
         },
-        "required": [ "solution" ]
+        "required": ["solution"]
     }
 )
 print(llm.generate(prompt))
