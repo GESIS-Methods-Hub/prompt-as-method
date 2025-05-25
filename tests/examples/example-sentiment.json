@@ -1,0 +1,63 @@
+{
+    "model": "llama3.1",
+    "messages": [
+        {
+            "content": "Judge whether the input text has 'positive', 'neutral' or 'negative' sentiment. Answer with a JSON object with the sentiment and your confidence (between 0 and 1).",
+            "role": "system"
+        },
+        {
+            "content": "This is a bad movie",
+            "role": "user"
+        },
+        {
+            "content": "{\"sentiment\": \"negative\", \"confidence\": 1.0}",
+            "role": "assistant"
+        },
+        {
+            "content": "What a great book!",
+            "role": "user"
+        },
+        {
+            "content": "{\"sentiment\": \"positive\", \"confidence\": 0.8}",
+            "role": "assistant"
+        },
+        {
+            "content": "I don't know about this one.",
+            "role": "user"
+        },
+        {
+            "content": "{\"sentiment\": \"neutral\", \"confidence\": 0.9}",
+            "role": "assistant"
+        },
+        {
+            "content": "Crazy!",
+            "role": "user"
+        },
+        {
+            "content": "{\"sentiment\": \"negative\", \"confidence\": 0.1}",
+            "role": "assistant"
+        },
+        {
+            "content": "{{text}}",
+            "role": "user"
+        }
+    ],
+    "max_completion_tokens": 10,
+    "response_format": {
+        "type": "json_schema",
+        "json_schema": {
+            "type": "object",
+            "properties": {
+                "sentiment": {
+                    "enum": ["positive", "neutral", "negative"]
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "required": ["sentiment", "confidence"]
+        }
+    }
+}

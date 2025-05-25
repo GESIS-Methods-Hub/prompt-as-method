@@ -46,7 +46,9 @@ class PromptTemplate:
 
     def render_from_csv(self, file_name: FilePath, **kwargs) -> Iterator[Prompt]:
         with open(file_name, newline="") as csv_file:
-            return self.render_from_dicts(csv.DictReader(csv_file, **kwargs))
+            # read complete file as it closes after with
+            for row in csv.DictReader(csv_file, **kwargs):
+                yield self.render(row)
 
     def render_from_tsv(self, file_name: FilePath, **kwargs) -> Iterator[Prompt]:
         return self.render_from_csv(file_name, delimiter="\t", **kwargs)
