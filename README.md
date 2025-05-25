@@ -18,9 +18,9 @@ pip install prompt-as-method
 If you have an [Ollama](https://ollama.com/download) running on the default port on your local machine:
 
 ```shell
-python3 -m prompt-as-method \
-    --prompt-template ../tests/examples/example-sentiment.json \
-    --values ../tests/examples/example-sentiment-data.tsv
+python3 -m prompt_as_method \
+    --prompt-template tests/examples/example-sentiment.json \
+    --values tests/examples/example-sentiment-data.tsv
 ```
 
 ## Contributing
