@@ -22,12 +22,14 @@ class UserMessage(BaseMessage):
 
 Message = Annotated[Union[AssistantMessage, SystemMessage, UserMessage], Field(discriminator="role")]
 
+
 def last_message_is_of_user(value: List[Message]) -> List[Message]:
     if len(value) < 1:
         raise ValueError("messages list must contain at least one message")
     if type(value[-1]) is not UserMessage:
         raise ValueError("last message must be a user message")
     return value
+
 
 Messages = Annotated[List[Message], AfterValidator(last_message_is_of_user)]
 
