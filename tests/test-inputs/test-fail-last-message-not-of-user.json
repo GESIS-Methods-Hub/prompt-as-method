@@ -1,0 +1,9 @@
+{
+    "model": "llama3.1",
+    "messages": [
+        {
+            "content": "Is this a test?",
+            "role": "system"
+        }
+    ]
+}

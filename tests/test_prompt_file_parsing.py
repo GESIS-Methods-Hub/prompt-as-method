@@ -156,6 +156,13 @@ class TestPromptFileParsing(unittest.TestCase):
         with self.assertRaises(ValueError):
             prompt_template.render(data)
 
+    def test_fail_last_message_not_of_user(self):
+        file_name = "test-fail-last-message-not-of-user.json"
+        data = {}
+        prompt_template = PromptTemplate(input_path / file_name)
+        with self.assertRaises(ValueError):
+            prompt_template.render(data)
+
     def test_fail_no_model(self):
         file_name = "test-fail-no-model.json"
         data = {}
