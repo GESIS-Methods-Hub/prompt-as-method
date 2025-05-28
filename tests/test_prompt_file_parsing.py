@@ -157,6 +157,48 @@ class TestPromptFileParsing(unittest.TestCase):
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
+    def test_example_sentiment_multi_turn_ndjson(self):
+        file_name = "example-sentiment-multi-turn.json"
+        file_name_data = "example-sentiment-data.ndjson"
+        file_name_expected = "example-sentiment-multi-turn.json"
+        with open(expected_outputs_path / file_name_expected) as file:
+            expected = json.load(file)
+
+        prompt_template = PromptTemplate(examples_path / file_name)
+        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        self.assertListEqual(
+            expected,
+            [prompt.model_dump(exclude_none=True) for prompt in prompts]
+        )
+
+    def test_example_sentiment_multi_turn_csv(self):
+        file_name = "example-sentiment-multi-turn.json"
+        file_name_data = "example-sentiment-data.csv"
+        file_name_expected = "example-sentiment-multi-turn.json"
+        with open(expected_outputs_path / file_name_expected) as file:
+            expected = json.load(file)
+
+        prompt_template = PromptTemplate(examples_path / file_name)
+        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        self.assertListEqual(
+            expected,
+            [prompt.model_dump(exclude_none=True) for prompt in prompts]
+        )
+
+    def test_example_sentiment_multi_turn_tsv(self):
+        file_name = "example-sentiment-multi-turn.json"
+        file_name_data = "example-sentiment-data.tsv"
+        file_name_expected = "example-sentiment-multi-turn.json"
+        with open(expected_outputs_path / file_name_expected) as file:
+            expected = json.load(file)
+
+        prompt_template = PromptTemplate(examples_path / file_name)
+        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        self.assertListEqual(
+            expected,
+            [prompt.model_dump(exclude_none=True) for prompt in prompts]
+        )
+
     def test_fail_empty_messages(self):
         file_name = "test-fail-empty-messages.json"
         data = {}
