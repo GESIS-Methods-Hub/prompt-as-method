@@ -7,7 +7,7 @@ import jsonschema
 from prompt_as_method import PromptTemplate
 
 test_inputs_path = Path("tests") / "test-inputs"
-examples_path = Path("tests") / "examples"
+examples_path = Path("examples")
 expected_outputs_path = Path("tests") / "expected-outputs"
 
 

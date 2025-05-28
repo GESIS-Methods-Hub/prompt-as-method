@@ -1,26 +1,36 @@
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "prompt-as-method"
-description = ""
+version = "0.1.0"
+description = "Run prompts from files"
 requires-python = ">=3.10"
+readme = "README.md"
+dependencies = [
+    "chevron>=0.14.0",
+    "pydantic>=2.10.6",
+    "requests>=2.32.3",
+    "jsonschema>=4.23.0"
+]
 license = { file = "LICENSE" }
 keywords = [ "ai", "artificial intelligence", "classification", "generative model", "large language model", "llm" , "prompt" ]
 authors = [
-    { name = "Johannes Kiesel" }
+    {name = "Johannes Kiesel",email = "Johannes.Kiesel@gesis.org"}
 ]
 maintainers = [
-    { name = "Johannes Kiesel" }
+    {name = "Johannes Kiesel",email = "Johannes.Kiesel@gesis.org"}
 ]
-dynamic = [ "dependencies", "readme", "version" ]
 
 [project.urls]
 "Source" = "https://github.com/GESIS-Methods-Hub/prompt-as-method"
 "Issues" = "https://github.com/GESIS-Methods-Hub/prompt-as-method/issues"
 
-[tool.setuptools.dynamic]
-version = {attr = "prompt_as_method.__version__"}
-readme = {file = "README.md", content-type = "text/plain"}
-dependencies = {file = "requirements.txt"}
+[tool.poetry]
+packages = [{include = "prompt_as_method", from = "src"}]
+
+[tool.poetry.group.development]
+optional = true
+[tool.poetry.group.development.dependencies]
+flake8 = "*"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

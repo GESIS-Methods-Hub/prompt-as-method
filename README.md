@@ -19,8 +19,8 @@ If you have an [Ollama](https://ollama.com/download) running on the default port
 
 ```shell
 python3 -m prompt_as_method \
-    --prompt-template tests/examples/example-sentiment.json \
-    --values tests/examples/example-sentiment-data.tsv
+    --prompt-template examples/example-sentiment.json \
+    --values examples/example-sentiment-data.tsv
 ```
 
 ## Contributing
