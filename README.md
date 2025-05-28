@@ -18,10 +18,13 @@ pip install prompt-as-method
 If you have an [Ollama](https://ollama.com/download) running on the default port on your local machine:
 
 ```shell
+ollama pull llama3.1  # download model
 python3 -m prompt_as_method \
     --prompt-template examples/example-sentiment.json \
-    --values examples/example-sentiment-data.tsv
+    --values examples/example-sentiment-data.csv
 ```
+
+This runs the prompt template [`examples/example-sentiment.json`](examples/example-sentiment.json) for each row of [`examples/example-sentiment-data.csv`](examples/example-sentiment-data.tsv) with `{{text}}` replaced by the row's value for it.
 
 ## Contributing
 
