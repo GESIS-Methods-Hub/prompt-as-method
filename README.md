@@ -5,7 +5,7 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/GESIS-Methods-Hub/prompt-as-method/test.yml?label=tests)](https://github.com/GESIS-Methods-Hub/prompt-as-method/actions/workflows/test.yml)
 [![Static Badge](https://img.shields.io/badge/licence-MIT-%2395c30d)](https://github.com/GESIS-Methods-Hub/prompt-as-method/blob/main/LICENSE)
 
-Execute methods that are programmed as prompt to a generative model
+Run prompts from files.
 
 ## Install
 
