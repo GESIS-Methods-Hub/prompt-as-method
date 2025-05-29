@@ -1,7 +1,7 @@
 import csv
 import json
 from pathlib import Path
-from typing import Any, Iterator, Literal, Self
+from typing import Any, Iterator, Literal
 import jsonschema
 import jsonref
 import jsonschema_fill_default
@@ -14,7 +14,7 @@ class DataFormat(BaseModel):
     json_schema: dict[str, Any]
 
     @model_validator(mode='after')
-    def is_valid_json_schema(self) -> Self:
+    def is_valid_json_schema(self) -> "DataFormat":
         jsonschema.Draft202012Validator.check_schema(self.json_schema)
         return self
 
