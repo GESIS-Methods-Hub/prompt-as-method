@@ -4,8 +4,7 @@ import unittest
 
 from pydantic import ValidationError
 
-from prompt_as_method import PromptTemplate
-from prompt_as_method.data import read_data
+from prompt_as_method import PromptTemplate, read_data
 
 test_inputs_path = Path("tests") / "test-inputs"
 examples_sentiment_path = Path("examples") / "sentiment"

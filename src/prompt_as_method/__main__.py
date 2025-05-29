@@ -20,12 +20,16 @@ parser.add_argument(
     " the file (except the header for .csv and .tsv)"
 )
 parser.add_argument(
+    "--model-api", type=str, default="http://localhost:11434/v1/chat/completions",
+    help="URL of the chat completion API endpoint (default is local Ollama server)"
+)
+parser.add_argument(
     "--repetitions", type=int, default=1,
     help="How often each prompt (row in values file) should be repeated (default: 1)"
 )
 parser.add_argument(
-    "--model-api", type=str, default="http://localhost:11434/v1/chat/completions",
-    help="URL of the chat completion API endpoint (default is local Ollama server)"
+    "--trace", action="store_true",
+    help="Whether to add the method trace to the output"
 )
 
 opts = parser.parse_args()
@@ -33,4 +37,6 @@ opts = parser.parse_args()
 method = Method(opts.prompt, opts.model_api)
 for data in read_data(opts.data):
     result = method.process(data, repetitions=opts.repetitions)
+    if not opts.trace:
+        result.trace = None
     print(result.model_dump_json(exclude_none=True), flush=True)
