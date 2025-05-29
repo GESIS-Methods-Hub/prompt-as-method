@@ -23,7 +23,8 @@
                 "confidence": {
                     "type": "number",
                     "minimum": 0,
-                    "maximum": 1
+                    "maximum": 1,
+                    "default": 1
                 }
             },
             "required": ["sentiment"]

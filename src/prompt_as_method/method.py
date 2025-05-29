@@ -6,11 +6,16 @@ from .prompt_template import PromptTemplate
 from .llm import LLM, HttpLLM
 
 
-class MethodResult(BaseModel):
+class MethodTrace(BaseModel):
     task: Task | None = None
-    data: dict
     prompt: Prompt
     responses: list[dict]
+
+
+class MethodResult(BaseModel):
+    input: dict
+    outputs: list[dict | str]
+    trace: MethodTrace | None = None
 
 
 class Method:
@@ -29,5 +34,6 @@ class Method:
         task = self._prompt_template.task
         response_format = None if task is None else task.output_format
         prompt = self._prompt_template.render(data)
-        responses = self._llm.generate(prompt, response_format=response_format, repetitions=repetitions)
-        return MethodResult(task=task, data=data, prompt=prompt, responses=list(responses))
+        outputs, responses = zip(*[self._llm.generate(prompt, response_format) for _ in range(repetitions)])
+        trace = MethodTrace(task=task, prompt=prompt, responses=responses)  # type: ignore
+        return MethodResult(input=data, outputs=outputs, trace=trace)  # type: ignore
