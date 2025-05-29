@@ -3,7 +3,6 @@ from pathlib import Path
 import unittest
 
 from pydantic import ValidationError
-from pydantic_core import _pydantic_core
 
 from prompt_as_method import PromptTemplate
 from prompt_as_method.data import read_data
