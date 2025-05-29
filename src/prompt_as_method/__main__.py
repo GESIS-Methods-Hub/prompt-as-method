@@ -1,6 +1,7 @@
 import argparse
-from .prompt_template import PromptTemplate
-from .llm import HttpLLM, LLMType
+
+from .method import Method
+from .data import read_data
 
 
 parser = argparse.ArgumentParser(
@@ -8,12 +9,12 @@ parser = argparse.ArgumentParser(
     description="Executes a method that is programmed as a prompt for a generative model"
 )
 parser.add_argument(
-    "--prompt-template", type=str, required=True,
+    "--prompt", type=str, required=True,
     help="Prompt template file (.json or .mustache; can be a URL) according to OpenAI chat completion API with variables"
     " enclosed in double curly braces (see mustache syntax)"
 )
 parser.add_argument(
-    "--values", type=str, default=None,
+    "--data", type=str, required=True,
     help="File with value assignment for template variables (variable names are column headers for .csv and .tsv files, and"
     " attribute names for .ndjson files; can be a URL), with the model being called separately for the values in each row of"
     " the file (except the header for .csv and .tsv)"
@@ -29,9 +30,7 @@ parser.add_argument(
 
 opts = parser.parse_args()
 
-prompt_template = PromptTemplate(template_file_name=opts.prompt_template)
-prompts = prompt_template.render_from_file(opts.values) if opts.values is not None else [prompt_template.render()].__iter__()
-llm = HttpLLM.init(LLMType.openai, opts.model_api)
-
-for response in llm.generate_all(prompts, repetitions=opts.repetitions):
-    print(response.model_dump_json(exclude_none=True))
+method = Method(opts.prompt, opts.model_api)
+for data in read_data(opts.data):
+    result = method.process(data, repetitions=opts.repetitions)
+    print(result.model_dump_json(exclude_none=True), flush=True)

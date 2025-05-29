@@ -20,11 +20,11 @@ If you have an [Ollama](https://ollama.com/download) running on the default port
 ```shell
 ollama pull llama3.1  # download model
 python3 -m prompt_as_method \
-    --prompt-template examples/example-sentiment.json \
-    --values examples/example-sentiment-data.csv
+    --prompt examples/sentiment/prompt.json \
+    --data examples/sentiment/data.csv
 ```
 
-This runs the prompt template [`examples/example-sentiment.json`](examples/example-sentiment.json) for each row of [`examples/example-sentiment-data.csv`](examples/example-sentiment-data.tsv) with `{{text}}` replaced by the row's value for it.
+This runs the prompt template [`examples/sentiment/prompt.json`](examples/sentiment/prompt.json) for each row of [`examples/sentiment/data.csv`](examples/sentiment/data.csv) with `{{{text}}}` replaced by the row's value for it.
 
 ## Contributing
 

@@ -1,0 +1,38 @@
+{
+    "id": "https://github.com/GESIS-Methods-Hub/prompt-as-method/blob/main/examples/sentiment/task.json",
+    "input_format": {
+        "type": "json_schema",
+        "json_schema": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": ["text"]
+        }
+    },
+    "output_format": {
+        "type": "json_schema",
+        "json_schema": {
+            "type": "object",
+            "properties": {
+                "sentiment": {
+                    "enum": ["positive", "neutral", "negative"]
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "required": ["sentiment"]
+        }
+    },
+    "examples": [
+        {"text":"This is a bad movie","sentiment":"negative"},
+        {"text":"What a great book!","sentiment":"positive","confidence":0.8},
+        {"text":"I don't know about this one","sentiment":"neutral","confidence":0.9},
+        {"text":"Crazy!","sentiment":"negative","confidence":0.1}
+    ]
+}

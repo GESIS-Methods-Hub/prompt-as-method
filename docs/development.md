@@ -3,6 +3,7 @@
 ```shell
 poetry install --with development
 poetry run python -m prompt_as_method --help
+poetry run python -m prompt_as_method --prompt examples/sentiment/prompt.json --data examples/sentiment/data.tsv
 ```
 
 ## Running unittests (automatically on push)

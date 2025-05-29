@@ -1,5 +1,6 @@
 [
     {
+        "task": "task.json",
         "model": "llama3.1",
         "temperature": 1,
         "top_p": 1,
@@ -12,33 +13,10 @@
                 "content": "The food was terrible",
                 "role": "user"
             }
-        ],
-        "response_format": {
-            "type": "json_schema",
-            "json_schema": {
-                "type": "object",
-                "properties": {
-                    "sentiment": {
-                        "enum": [
-                            "positive",
-                            "neutral",
-                            "negative"
-                        ]
-                    },
-                    "confidence": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                    }
-                },
-                "required": [
-                    "sentiment",
-                    "confidence"
-                ]
-            }
-        }
+        ]
     },
     {
+        "task": "task.json",
         "model": "llama3.1",
         "temperature": 1,
         "top_p": 1,
@@ -51,30 +29,6 @@
                 "content": "This phone is awesome!",
                 "role": "user"
             }
-        ],
-        "response_format": {
-            "type": "json_schema",
-            "json_schema": {
-                "type": "object",
-                "properties": {
-                    "sentiment": {
-                        "enum": [
-                            "positive",
-                            "neutral",
-                            "negative"
-                        ]
-                    },
-                    "confidence": {
-                        "type": "number",
-                        "minimum": 0,
-                        "maximum": 1
-                    }
-                },
-                "required": [
-                    "sentiment",
-                    "confidence"
-                ]
-            }
-        }
+        ]
     }
 ]

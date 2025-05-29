@@ -2,12 +2,14 @@ import json
 from pathlib import Path
 import unittest
 
-import jsonschema
+from pydantic import ValidationError
+from pydantic_core import _pydantic_core
 
 from prompt_as_method import PromptTemplate
+from prompt_as_method.data import read_data
 
 test_inputs_path = Path("tests") / "test-inputs"
-examples_path = Path("examples")
+examples_sentiment_path = Path("examples") / "sentiment"
 expected_outputs_path = Path("tests") / "expected-outputs"
 
 
@@ -81,7 +83,7 @@ class TestPromptFileParsing(unittest.TestCase):
         prompt_template = PromptTemplate(test_inputs_path / file_name)
         self.assertDictEqual(
             expected,
-            prompt_template.render(data).model_dump()
+            prompt_template.render(data).model_dump(exclude_none=True)
         )
 
     def test_full_message_template(self):
@@ -97,7 +99,7 @@ class TestPromptFileParsing(unittest.TestCase):
         prompt_template = PromptTemplate(test_inputs_path / file_name)
         self.assertDictEqual(
             expected,
-            prompt_template.render(data).model_dump()
+            prompt_template.render(data).model_dump(exclude_none=True)
         )
 
     def test_full_message_template_empty(self):
@@ -112,88 +114,88 @@ class TestPromptFileParsing(unittest.TestCase):
         prompt_template = PromptTemplate(test_inputs_path / file_name)
         self.assertDictEqual(
             expected,
-            prompt_template.render(data).model_dump()
+            prompt_template.render(data).model_dump(exclude_none=True)
         )
 
     def test_example_sentiment_ndjson(self):
-        file_name = "example-sentiment.json"
-        file_name_data = "example-sentiment-data.ndjson"
+        file_name = "prompt.json"
+        file_name_data = "data.ndjson"
         file_name_expected = "example-sentiment.json"
         with open(expected_outputs_path / file_name_expected) as file:
             expected = json.load(file)
 
-        prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        prompt_template = PromptTemplate(examples_sentiment_path / file_name)
+        prompts = [prompt_template.render(data) for data in read_data(examples_sentiment_path / file_name_data)]
         self.assertListEqual(
             expected,
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
     def test_example_sentiment_csv(self):
-        file_name = "example-sentiment.json"
-        file_name_data = "example-sentiment-data.csv"
+        file_name = "prompt.json"
+        file_name_data = "data.csv"
         file_name_expected = "example-sentiment.json"
         with open(expected_outputs_path / file_name_expected) as file:
             expected = json.load(file)
 
-        prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        prompt_template = PromptTemplate(examples_sentiment_path / file_name)
+        prompts = [prompt_template.render(data) for data in read_data(examples_sentiment_path / file_name_data)]
         self.assertListEqual(
             expected,
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
     def test_example_sentiment_tsv(self):
-        file_name = "example-sentiment.json"
-        file_name_data = "example-sentiment-data.tsv"
+        file_name = "prompt.json"
+        file_name_data = "data.tsv"
         file_name_expected = "example-sentiment.json"
         with open(expected_outputs_path / file_name_expected) as file:
             expected = json.load(file)
 
-        prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        prompt_template = PromptTemplate(examples_sentiment_path / file_name)
+        prompts = [prompt_template.render(data) for data in read_data(examples_sentiment_path / file_name_data)]
         self.assertListEqual(
             expected,
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
-    def test_example_sentiment_multi_turn_ndjson(self):
-        file_name = "example-sentiment-multi-turn.json"
-        file_name_data = "example-sentiment-data.ndjson"
-        file_name_expected = "example-sentiment-multi-turn.json"
+    def test_example_sentiment_few_shot_ndjson(self):
+        file_name = "prompt-few-shot.json"
+        file_name_data = "data.ndjson"
+        file_name_expected = "example-sentiment-few-shot.json"
         with open(expected_outputs_path / file_name_expected) as file:
             expected = json.load(file)
 
-        prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        prompt_template = PromptTemplate(examples_sentiment_path / file_name)
+        prompts = [prompt_template.render(data) for data in read_data(examples_sentiment_path / file_name_data)]
         self.assertListEqual(
             expected,
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
-    def test_example_sentiment_multi_turn_csv(self):
-        file_name = "example-sentiment-multi-turn.json"
-        file_name_data = "example-sentiment-data.csv"
-        file_name_expected = "example-sentiment-multi-turn.json"
+    def test_example_sentiment_few_shot_csv(self):
+        file_name = "prompt-few-shot.json"
+        file_name_data = "data.csv"
+        file_name_expected = "example-sentiment-few-shot.json"
         with open(expected_outputs_path / file_name_expected) as file:
             expected = json.load(file)
 
-        prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        prompt_template = PromptTemplate(examples_sentiment_path / file_name)
+        prompts = [prompt_template.render(data) for data in read_data(examples_sentiment_path / file_name_data)]
         self.assertListEqual(
             expected,
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
-    def test_example_sentiment_multi_turn_tsv(self):
-        file_name = "example-sentiment-multi-turn.json"
-        file_name_data = "example-sentiment-data.tsv"
-        file_name_expected = "example-sentiment-multi-turn.json"
+    def test_example_sentiment_few_shot_tsv(self):
+        file_name = "prompt-few-shot.json"
+        file_name_data = "data.tsv"
+        file_name_expected = "example-sentiment-few-shot.json"
         with open(expected_outputs_path / file_name_expected) as file:
             expected = json.load(file)
 
-        prompt_template = PromptTemplate(examples_path / file_name)
-        prompts = list(prompt_template.render_from_file(examples_path / file_name_data))
+        prompt_template = PromptTemplate(examples_sentiment_path / file_name)
+        prompts = [prompt_template.render(data) for data in read_data(examples_sentiment_path / file_name_data)]
         self.assertListEqual(
             expected,
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
@@ -201,83 +203,53 @@ class TestPromptFileParsing(unittest.TestCase):
 
     def test_fail_empty_messages(self):
         file_name = "test-fail-empty-messages.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_empty(self):
         file_name = "test-fail-empty.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_invalid_role(self):
         file_name = "test-fail-invalid-role.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_list(self):
         file_name = "test-fail-list.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_no_json(self):
         file_name = "test-fail-no-json.txt"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_no_messages(self):
         file_name = "test-fail-no-messages.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_last_message_not_of_user(self):
         file_name = "test-fail-last-message-not-of-user.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_no_model(self):
         file_name = "test-fail-no-model.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_no_role(self):
         file_name = "test-fail-no-role.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
     def test_fail_only_text(self):
         file_name = "test-fail-only-text.json"
-        data = {}
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(ValueError):
-            prompt_template.render(data)
-
-    def test_fail_invalid_schema(self):
-        file_name = "test-fail-invalid-schema.json"
-        data = {
-            "thing": "apple",
-            "thing2": "pear"
-        }
-        prompt_template = PromptTemplate(test_inputs_path / file_name)
-        with self.assertRaises(jsonschema.SchemaError):
-            prompt_template.render(data)
+        with self.assertRaises(ValidationError):
+            PromptTemplate(test_inputs_path / file_name)
 
 
 if __name__ == '__main__':

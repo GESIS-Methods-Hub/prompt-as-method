@@ -191,6 +191,30 @@ files = [
 all = ["flake8 (>=7.1.1)", "mypy (>=1.11.2)", "pytest (>=8.3.2)", "ruff (>=0.6.2)"]
 
 [[package]]
+name = "json-repair"
+version = "0.46.0"
+description = "A package to repair broken json strings"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "json_repair-0.46.0-py3-none-any.whl", hash = "sha256:54d6a9889fba0846b80befb2b1aca619103ad3ed74612fb3fedd965a4a3b1653"},
+    {file = "json_repair-0.46.0.tar.gz", hash = "sha256:abc751162baf8e384685558acba978478e833c1207be31468d9babfaf8029ab6"},
+]
+
+[[package]]
+name = "jsonref"
+version = "1.1.0"
+description = "jsonref is a library for automatic dereferencing of JSON Reference objects for Python."
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "jsonref-1.1.0-py3-none-any.whl", hash = "sha256:590dc7773df6c21cbf948b5dac07a72a251db28b0238ceecce0a2abfa8ec30a9"},
+    {file = "jsonref-1.1.0.tar.gz", hash = "sha256:32fe8e1d85af0fdefbebce950af85590b22b60f9e95443176adbde4e1ecea552"},
+]
+
+[[package]]
 name = "jsonschema"
 version = "4.24.0"
 description = "An implementation of JSON Schema validation for Python"
@@ -211,6 +235,21 @@ rpds-py = ">=0.7.1"
 [package.extras]
 format = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3987", "uri-template", "webcolors (>=1.11)"]
 format-nongpl = ["fqdn", "idna", "isoduration", "jsonpointer (>1.13)", "rfc3339-validator", "rfc3986-validator (>0.1.0)", "uri-template", "webcolors (>=24.6.0)"]
+
+[[package]]
+name = "jsonschema-fill-default"
+version = "0.1.3.20250131"
+description = "Fill a JSON instance with the missing defaults from its JSON Schema Draft 2020-12-valid schema"
+optional = false
+python-versions = "<4.0,>=3.9"
+groups = ["main"]
+files = [
+    {file = "jsonschema_fill_default-0.1.3.20250131-py3-none-any.whl", hash = "sha256:7c390eb701a3e22e2d5020aa12307281d1bee6de0a55c5551e9b7a68b0cf702b"},
+    {file = "jsonschema_fill_default-0.1.3.20250131.tar.gz", hash = "sha256:46bbdd2ca2160cf1077473fa449740359a70326cec1989d53fc81455ce2996a4"},
+]
+
+[package.dependencies]
+jsonschema = ">=4.23.0,<5.0.0"
 
 [[package]]
 name = "jsonschema-specifications"
@@ -610,5 +649,5 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [metadata]
 lock-version = "2.1"
-python-versions = ">=3.10"
-content-hash = "62ab9e2208c03d8b2f3263d6696601eae141a70ddcef12480be93fce7241e947"
+python-versions = ">=3.10,<4.0"
+content-hash = "d918acac42dfb47f6f1ef13040180faa32a996c8b6dde80275272b04a70c7302"

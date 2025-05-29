@@ -1,4 +1,5 @@
 {
+    "task": "task.json",
     "model": "llama3.1",
     "messages": [
         {
@@ -38,25 +39,8 @@
             "role": "assistant"
         },
         {
-            "content": "{{text}}",
+            "content": "{{{text}}}",
             "role": "user"
         }
-    ],
-    "response_format": {
-        "type": "json_schema",
-        "json_schema": {
-            "type": "object",
-            "properties": {
-                "sentiment": {
-                    "enum": ["positive", "neutral", "negative"]
-                },
-                "confidence": {
-                    "type": "number",
-                    "minimum": 0,
-                    "maximum": 1
-                }
-            },
-            "required": ["sentiment", "confidence"]
-        }
-    }
+    ]
 }
