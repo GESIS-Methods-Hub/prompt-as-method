@@ -1,0 +1,14 @@
+{
+    "task": "https://raw.githubusercontent.com/GESIS-Methods-Hub/prompt-as-method/refs/heads/main/examples/sentiment/task.json",
+    "model": "llama3.1",
+    "messages": [
+        {
+            "content": "Judge whether the input text has 'positive', 'neutral' or 'negative' sentiment. Answer with a JSON object with the sentiment and your confidence (between 0 and 1).",
+            "role": "system"
+        },
+        {
+            "content": "{{{text}}}",
+            "role": "user"
+        }
+    ]
+}

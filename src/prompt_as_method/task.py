@@ -17,7 +17,7 @@ def get_task(path: str, base_path: Path | None = None):
         response = requests.get(path, headers={"Content-Type": "application/json"})
         if response.status_code != 200:
             raise ValueError(f"Error fetching task from {path}: {response.text}")
-        return Task.model_validate_json(response.json())
+        return Task.model_validate_json(response.text)
     except requests.exceptions.MissingSchema:
         if not Path(path).is_absolute():
             if base_path is not None:
