@@ -9,12 +9,12 @@ from .llm import LLM, HttpLLM
 class MethodTrace(BaseModel):
     task: Task | None = None
     prompt: Prompt
-    responses: list[dict]
+    response: dict
 
 
 class MethodResult(BaseModel):
     input: dict
-    outputs: list[dict | str]
+    output: dict | str
     trace: MethodTrace | None = None
 
 
@@ -30,10 +30,10 @@ class Method:
         else:
             self._prompt_template = PromptTemplate(prompt_template)
 
-    def process(self, data: dict, repetitions: int = 1) -> MethodResult:
+    def process(self, data: dict) -> MethodResult:
         task = self._prompt_template.task
         response_format = None if task is None else task.output_format
         prompt = self._prompt_template.render(data)
-        outputs, responses = zip(*[self._llm.generate(prompt, response_format) for _ in range(repetitions)])
-        trace = MethodTrace(task=task, prompt=prompt, responses=responses)  # type: ignore
-        return MethodResult(input=data, outputs=outputs, trace=trace)  # type: ignore
+        output, response = self._llm.generate(prompt, response_format)
+        trace = MethodTrace(task=task, prompt=prompt, response=response)
+        return MethodResult(input=data, output=output, trace=trace)
