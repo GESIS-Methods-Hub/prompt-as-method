@@ -1,5 +1,5 @@
 {
-    "id": "https://github.com/GESIS-Methods-Hub/prompt-as-method/blob/main/examples/sentiment/task.json",
+    "id": "https://raw.githubusercontent.com/GESIS-Methods-Hub/prompt-as-method/refs/heads/main/examples/sentiment/task.json",
     "input_format": {
         "type": "json_schema",
         "json_schema": {

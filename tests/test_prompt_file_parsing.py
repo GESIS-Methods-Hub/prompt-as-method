@@ -157,6 +157,20 @@ class TestPromptFileParsing(unittest.TestCase):
             [prompt.model_dump(exclude_none=True) for prompt in prompts]
         )
 
+    def test_example_with_task_url(self):
+        file_name = "prompt-with-task-url.json"
+        file_name_data = "data.tsv"
+        file_name_expected = "example-sentiment-with-task-url.json"
+        with open(expected_outputs_path / file_name_expected) as file:
+            expected = json.load(file)
+
+        prompt_template = PromptTemplate(examples_sentiment_path / file_name)
+        prompts = [prompt_template.render(data) for data in read_data(examples_sentiment_path / file_name_data)]
+        self.assertListEqual(
+            expected,
+            [prompt.model_dump(exclude_none=True) for prompt in prompts]
+        )
+
     def test_example_sentiment_few_shot_ndjson(self):
         file_name = "prompt-few-shot.json"
         file_name_data = "data.ndjson"
